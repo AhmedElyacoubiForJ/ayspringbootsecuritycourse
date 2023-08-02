@@ -1,5 +1,6 @@
 package edu.yacoubi.ayspringbootsecuritycourse.security;
 
+import static edu.yacoubi.ayspringbootsecuritycourse.security.ApplicationUserRole.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
 
 @Configuration
 @EnableWebSecurity
@@ -42,13 +44,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails annaSmithUser = User.builder()
                 .username("annasmith")
                 .password(passwordEncoder.encode("password"))
-                .roles("STUDENT") // spring internally: ROLE_STUDENT
+                .roles(STUDENT.name()) // spring internally: ROLE_STUDENT
                 .build();
 
         UserDetails lindaUser = User.builder()
                 .username("linda")
                 .password(passwordEncoder.encode("password123"))
-                .roles("ADMIN") // ROLE_ADMIN
+                .roles(ADMIN.name()) // ROLE_ADMIN
                 .build();
 
         UserDetails tomUser = User.builder()
