@@ -10,6 +10,6 @@ public class PasswordConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         // 10 represents the strength of the algorithm
-        return new BCryptPasswordEncoder(10);
+        return new BCryptPasswordEncoder(10); // most famous PasswordEncoder implementation
     }
 }

@@ -28,13 +28,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .authorizeRequests() // we want to authorize request
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll() // don't need to specified userName & password for these patterns
                 .antMatchers("/api/**").hasRole(STUDENT.name())
-                .anyRequest()
-                .authenticated()
+                .anyRequest() // any request must
+                .authenticated() // be authenticated, client must to specified userName & password
                 .and()
-                .httpBasic();
+                .httpBasic(); // each request must send userName & password this is the opposite of form-based authentication
     }
 
     // how to retrieve user from the database
