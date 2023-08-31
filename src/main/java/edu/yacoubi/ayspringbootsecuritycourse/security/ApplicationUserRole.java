@@ -2,20 +2,31 @@ package edu.yacoubi.ayspringbootsecuritycourse.security;
 
 import static edu.yacoubi.ayspringbootsecuritycourse.security.ApplicationUserPermission.*;
 import com.google.common.collect.Sets;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public enum ApplicationUserRole {
-    STUDENT(Sets.newHashSet()), // empty
+    STUDENT(Sets.newHashSet()),
     ADMIN(Sets.newHashSet(COURSE_READ, COURSE_WRITE, STUDENT_READ, STUDENT_WRITE)),
     ADMINTRAINEE(Sets.newHashSet(COURSE_READ, STUDENT_READ));
 
-    private final Set<ApplicationUserPermission> permission;
+    private final Set<ApplicationUserPermission> permissions;
 
-    ApplicationUserRole(Set<ApplicationUserPermission> permission) {
-        this.permission = permission;
+    ApplicationUserRole(Set<ApplicationUserPermission> permissions) {
+        this.permissions = permissions;
     }
 
-    public Set<ApplicationUserPermission> getPermission() {
-        return permission;
+    public Set<ApplicationUserPermission> getPermissions() {
+        return permissions;
+    }
+
+    public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
+        Set<SimpleGrantedAuthority> permissions = getPermissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.name()))
+                .collect(Collectors.toSet());
+        permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        return permissions;
     }
 }
