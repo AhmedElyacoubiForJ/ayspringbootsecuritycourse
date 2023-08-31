@@ -1,9 +1,12 @@
 package edu.yacoubi.ayspringbootsecuritycourse.security;
 
+import static edu.yacoubi.ayspringbootsecuritycourse.security.ApplicationUserPermission.COURSE_READ;
+import static edu.yacoubi.ayspringbootsecuritycourse.security.ApplicationUserPermission.COURSE_WRITE;
 import static edu.yacoubi.ayspringbootsecuritycourse.security.ApplicationUserRole.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -32,6 +35,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests() // we want to authorize request
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll() // don't need to specified userName & password for these patterns
                 .antMatchers("/api/**").hasRole(STUDENT.name())
+                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.GET, "/management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
                 .anyRequest() // any request must
                 .authenticated() // be authenticated, client must to specified userName & password
                 .and()
