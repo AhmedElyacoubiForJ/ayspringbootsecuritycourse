@@ -1,5 +1,6 @@
 package edu.yacoubi.ayspringbootsecuritycourse.student;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -14,25 +15,31 @@ public class StudentManagementController {
             new Student(3, "Anna Smith")
     );
 
+    //    hasRole('ROLE_') hasAnyRole('ROLE_') hasAuthority('permission') hasAnyAuthority('permission')
+
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE')")
     public List<Student> getAll() {
         System.out.println("getAll()");
         return STUDENTS;
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('student:write')")
     public void register(@RequestBody Student student) {
         System.out.println("register()");
         System.out.println(student);
     }
 
     @DeleteMapping(path = "{studentId}")
+    @PreAuthorize("hasAuthority('student:write')")
     public void delete(@PathVariable("studentId") Integer studentId) {
         System.out.println("delete()");
         System.out.println(studentId);
     }
 
     @PutMapping(path = "{studentId}")
+    @PreAuthorize("hasAuthority('student:write')")
     public void update(
             @PathVariable("studentId") Integer studentId,
             @RequestBody Student student

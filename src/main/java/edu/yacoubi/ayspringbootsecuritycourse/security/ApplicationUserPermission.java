@@ -6,13 +6,13 @@ public enum ApplicationUserPermission {
     COURSE_READ("course:read"),
     COURSE_WRITE("course:write");
 
-    private final String appUserPermission;
+    private final String permission;
 
-    ApplicationUserPermission(String appUserPermission) {
-        this.appUserPermission = appUserPermission;
+    ApplicationUserPermission(String permission) {
+        this.permission = permission;
     }
 
     public String getPermission() {
-        return appUserPermission;
+        return permission;
     }
 }
