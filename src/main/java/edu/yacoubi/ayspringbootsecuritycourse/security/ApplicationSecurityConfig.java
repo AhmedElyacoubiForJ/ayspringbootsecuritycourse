@@ -34,15 +34,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
+                .csrf().disable()
                 .authorizeRequests() // we want to authorize request
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll() // don't need to specified userName & password for these patterns
                 .antMatchers("/api/**").hasRole(STUDENT.name())
                 .anyRequest() // any request must
                 .authenticated() // be authenticated, client must to specified userName & password
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login").permitAll();
     }
 
     // how to retrieve user from the database
