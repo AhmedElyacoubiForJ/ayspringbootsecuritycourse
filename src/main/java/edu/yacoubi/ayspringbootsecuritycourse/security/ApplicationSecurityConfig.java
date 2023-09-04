@@ -42,7 +42,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest() // any request must
                 .authenticated() // be authenticated, client must to specified userName & password
                 .and()
-                .httpBasic(); // each request must send userName & password this is the opposite of form-based authentication
+                .formLogin();
     }
 
     // how to retrieve user from the database
