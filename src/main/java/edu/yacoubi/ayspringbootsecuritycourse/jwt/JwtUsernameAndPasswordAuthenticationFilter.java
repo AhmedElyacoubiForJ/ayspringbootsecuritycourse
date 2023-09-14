@@ -69,8 +69,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter
         }
     }
 
-    // will be called after attemptAuthentication & is success
-    // create token & sending to client
+    // will be invoked after attemptAuthentication is success
+    // create token & sending it to client
     @Override
     protected void successfulAuthentication(
             HttpServletRequest request,
@@ -80,8 +80,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter
 
         // create token
         String token = Jwts.builder()
-                .setSubject(authResult.getName())
-                .claim("authorities", authResult.getAuthorities())
+                .setSubject(authResult.getName()) // in our case can be linda, tom or annasmith
+                .claim("authorities", authResult.getAuthorities()) // claim is a body
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(
                         LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())
