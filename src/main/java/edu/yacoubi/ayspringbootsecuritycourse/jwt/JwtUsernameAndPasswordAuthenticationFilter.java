@@ -70,6 +70,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter
     }
 
     // will be called after attemptAuthentication & is success
+    // create token & sending to client
     @Override
     protected void successfulAuthentication(
             HttpServletRequest request,
