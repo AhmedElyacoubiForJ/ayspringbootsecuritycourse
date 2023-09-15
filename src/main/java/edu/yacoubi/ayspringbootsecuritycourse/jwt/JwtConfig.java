@@ -2,8 +2,10 @@ package edu.yacoubi.ayspringbootsecuritycourse.jwt;
 
 import com.google.common.net.HttpHeaders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "application.jwt")
+@Component
 public class JwtConfig {
 
     private String secretKey;

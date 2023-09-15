@@ -5,6 +5,7 @@ import static edu.yacoubi.ayspringbootsecuritycourse.security.ApplicationUserRol
 import edu.yacoubi.ayspringbootsecuritycourse.auth.ApplicationUserService;
 
 import edu.yacoubi.ayspringbootsecuritycourse.jwt.JwtConfig;
+import edu.yacoubi.ayspringbootsecuritycourse.jwt.JwtTokenVerifier;
 import edu.yacoubi.ayspringbootsecuritycourse.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +51,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
+                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests() // we want to authorize request
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll() // don't need to specified userName & password for these patterns
                 .antMatchers("/api/**").hasRole(STUDENT.name())
